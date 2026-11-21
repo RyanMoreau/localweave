@@ -1,0 +1,69 @@
+defaultJob: maintenance-helpdesk
+assignmentTimeoutMs: 30000
+
+agents:
+  - id: willow
+    name: Willow
+    runtime: qvac
+    role: dispatcher
+    description: Workflow owner and dispatcher
+    skills: []
+    tools: []
+    color: green
+    enabled: true
+
+  - id: maverick
+    name: Maverick
+    runtime: qvac
+    role: specialist
+    description: Local maintenance report analyst
+    skills: [extract-keywords]
+    tools: [extract_keywords]
+    model: QWEN3_1_7B_INST_Q4
+    color: cyan
+    enabled: true
+
+  - id: oscar
+    name: Oscar
+    runtime: qvac
+    role: specialist
+    description: Local asset manual expert with a private knowledge index
+    skills: [asset-knowledge]
+    tools: [search_pump_manual]
+    model: QWEN3_1_7B_INST_Q4
+    color: magenta
+    enabled: true
+    knowledge:
+      asset: Pump 7
+      backend: local-text
+      source: examples/maintenance-helpdesk/knowledge/pump-7-manual.md
+
+jobs:
+  maintenance-triage:
+    version: 1
+    owner: willow
+    stages:
+      - id: triage
+        type: extract-keywords
+        requires: [extract-keywords]
+        tool: extract_keywords
+    demo: >-
+      Pump 7 has developed intermittent vibration after maintenance.
+      Extract the important maintenance terms for the shift handoff.
+
+  maintenance-helpdesk:
+    version: 1
+    owner: willow
+    stages:
+      - id: triage
+        type: extract-keywords
+        requires: [extract-keywords]
+        tool: extract_keywords
+      - id: research
+        type: answer-asset-question
+        after: triage
+        requires: [asset-knowledge]
+        tool: search_pump_manual
+    demo: >-
+      Pump 7 is vibrating, its bearing is overheating, and lubricant pressure is low.
+      What should the operator inspect first, and should the pump remain in service?

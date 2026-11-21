@@ -1,0 +1,45 @@
+{
+  "name": "localweave",
+  "version": "0.1.0",
+  "description": "Building blocks for local-first, peer-to-peer AI workflows.",
+  "author": "Ryan Moreau",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20 <21"
+  },
+  "scripts": {
+    "peer": "node --import tsx src/cli/peer.ts",
+    "specialist": "node --import tsx src/cli/specialist.ts",
+    "start": "node --import tsx src/cli/localweave.ts",
+    "localweave": "node --import tsx src/cli/localweave.ts",
+    "task": "node --import tsx src/cli/task.ts",
+    "demo:two": "node --import tsx src/cli/task.ts --job maintenance-triage",
+    "demo:three": "node --import tsx src/cli/task.ts --job maintenance-helpdesk",
+    "ask": "node --import tsx src/cli/ask.ts",
+    "results": "node --import tsx src/cli/results.ts",
+    "result": "node --import tsx src/cli/results.ts",
+    "retry": "node --import tsx src/cli/retry.ts",
+    "lint": "tsc --noEmit --pretty false",
+    "check": "npm run lint && npm test",
+    "test": "node --import tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@qvac/sdk": "^0.23.0",
+    "autobee": "^2.0.1",
+    "corestore": "^7.12.2",
+    "hypercore-crypto": "^3.6.1",
+    "hyperswarm": "^4.14.0",
+    "pino": "^10.4.0",
+    "pino-pretty": "^13.2.0",
+    "yaml": "^2.8.1",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
